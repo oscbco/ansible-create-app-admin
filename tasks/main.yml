@@ -1,0 +1,38 @@
+- name: SYSTEM Upgrade all packages to the latest version
+  apt: update_cache=yes upgrade=safe
+
+- name: SYSTEM Install python-apt for repository management, ca-certificates, python-psycopg2
+  apt: pkg={{ item }} state=present
+  with_items:
+  - python-apt
+  - ca-certificates
+  - python-psycopg2
+  - apt-transport-https
+
+- name: Create group wheel
+  group: name=wheel state=present
+
+- name: SUDO Add OS user administrator of this application
+  user: name={{ useradmin }} shell=/bin/bash groups=wheel
+  notify: "SUDO Restart sshd with the changes"
+
+- name: SUDO Create /home/{{ useradmin }}/.ssh/ directory
+  file: path=/home/{{ useradmin }}/.ssh/ state=directory owner={{ useradmin }} group={{ useradmin }} mode="u=rwx,g=,o="
+
+- name: SUDO Copy root's authorized_keys to this new user
+  shell: cp /root/.ssh/authorized_keys /home/{{ useradmin }}/.ssh/authorized_keys creates=/home/{{ useradmin }}/.ssh/authorized_keys
+  register: command_result
+  failed_when: "command_result.rc != 0"
+  notify: "SUDO Restart sshd with the changes"
+
+- name: SUDO Change authorized_keys ownership and privileges
+  file: path=/home/{{ useradmin }}/.ssh/authorized_keys owner={{ useradmin }}  group={{ useradmin }} mode="u+rw,g-rwx,o-rwx"
+  notify: "SUDO Restart sshd with the changes"  
+
+- name: SUDO Create and configure /etc/sudoers.d/{{ useradmin }} file
+  template: src=wheel.j2 dest=/etc/sudoers.d/wheel validate='visudo -cf %s' owner=root group=root mode="u=rw,g=,o="
+
+- name: SUDO Copy secure configuration for ssh
+  copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode="u+rw,g-rwx,o-rwx"
+  notify: "SUDO Restart sshd with the changes"  
+
