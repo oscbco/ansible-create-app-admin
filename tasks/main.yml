@@ -35,4 +35,3 @@
 - name: SUDO Copy secure configuration for ssh
   copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode="u+rw,g-rwx,o-rwx"
   notify: "SUDO Restart sshd with the changes"
-
