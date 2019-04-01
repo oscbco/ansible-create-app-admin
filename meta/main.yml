@@ -1,7 +1,7 @@
 galaxy_info:
   author: Oscar Barrera
   description: Role for disabling root login
-  role_name: disable-root-login
+  role_name: create-app-admin
   license: license (MIT)
   min_ansible_version: 2.4
   platforms:
