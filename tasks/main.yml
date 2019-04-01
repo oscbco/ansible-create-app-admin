@@ -27,12 +27,12 @@
 
 - name: SUDO Change authorized_keys ownership and privileges
   file: path=/home/{{ useradmin }}/.ssh/authorized_keys owner={{ useradmin }}  group={{ useradmin }} mode="u+rw,g-rwx,o-rwx"
-  notify: "SUDO Restart sshd with the changes"  
+  notify: "SUDO Restart sshd with the changes"
 
 - name: SUDO Create and configure /etc/sudoers.d/{{ useradmin }} file
   template: src=wheel.j2 dest=/etc/sudoers.d/wheel validate='visudo -cf %s' owner=root group=root mode="u=rw,g=,o="
 
 - name: SUDO Copy secure configuration for ssh
   copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode="u+rw,g-rwx,o-rwx"
-  notify: "SUDO Restart sshd with the changes"  
+  notify: "SUDO Restart sshd with the changes"
 
