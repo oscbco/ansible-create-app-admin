@@ -21,7 +21,7 @@
   copy:
     src: /root/.ssh/authorized_keys
     dest: /home/{{ useradmin }}/.ssh/authorized_keys
-    owner: {{ useradmin }}
+    owner: "{{ useradmin }}"
     group: wheel
     mode: u+rw,g-rwx,o-rwx
 
