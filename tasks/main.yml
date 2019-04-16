@@ -20,6 +20,7 @@
 - name: SUDO Copy root's authorized_keys to this new user
   copy:
     src: /root/.ssh/authorized_keys
+    remote_src: yes
     dest: /home/{{ useradmin }}/.ssh/authorized_keys
     owner: "{{ useradmin }}"
     group: wheel
