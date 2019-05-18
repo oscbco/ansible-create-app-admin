@@ -1,7 +1,7 @@
 galaxy_info:
   author: Oscar Barrera
-  description: Role for creating the app-admin and disabling root ssh login
-  role_name: create-app-admin
+  description: Role for creating  a new server admin user and disabling root ssh login
+  role_name: create-server-admin
   license: license (MIT)
   min_ansible_version: 2.5
   platforms:

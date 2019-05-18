@@ -1,12 +1,12 @@
 Role Name
 =========
 
-Creates a new admin user that will replace root. Disables root ssh login.
+Creates a new server admin user that will replace root, then disables root ssh login.
 
 Requirements
 ------------
 
-Requires a access to the root account.
+Requires access to the root account.
 
 Role Variables
 --------------
@@ -23,7 +23,10 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
     roles:
-      - {role: oscbco.create_app_admin, useradmin: 'app-admin'}
+      - {
+          role: oscbco.create_app_admin,
+          useradmin: 'server-admin'
+        }
 
 License
 -------
@@ -32,5 +35,4 @@ MIT
 
 Author Information
 ------------------
-
-oscbco.dev
+website: oscbco.me
